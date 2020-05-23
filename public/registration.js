@@ -55,7 +55,7 @@ _.assign(comp, {
       ),
     }))
   ),
-  
+
   updatePatient: () => m('.content',
     m('h3', 'Update identitas pasien'),
     m(autoForm({
@@ -76,11 +76,12 @@ _.assign(comp, {
       id: 'poliVisit', autoReset: true,
       schema: schemas.rawatJalan,
       action: doc => db.patients.filter(i =>
-        i.rawatJalan && i.rawatJalan.filter(j => ands([
+        i.rawatJalan ? i.rawatJalan.filter(j => ands([
           j.klinik === 1,
           j.tanggal > startOfTheDay(Date.now())
-        ])).length
+        ])).length : 0
       ).toArray(array => [
+        state.route = 'onePatient', m.redraw(),
         updateBoth('patients', state.onePatient._id, _.assign(state.onePatient, {
           rawatJalan: (state.onePatient.rawatJalan || []).concat([
             _.merge(doc, {antrian: array.length+1})
@@ -89,9 +90,7 @@ _.assign(comp, {
         doc.no_antrian && db.queue.toArray(arr => withThis(
           arr.find(i => i.no_antrian === doc.no_antrian),
           obj => updateBoth('queue', obj._id, _.merge(obj, {done: true}))
-        )),
-        state.route = 'onePatient',
-        m.redraw()
+        ))
       ])
     })))
   )

@@ -1,4 +1,4 @@
-/*global moment numeral _ m Dexie selects io*/
+/*global moment numeral _ m Dexie selects jQuery*/
 
 var
 withThis = (obj, cb) => cb(obj),
@@ -7,7 +7,7 @@ ands = array =>
   array.reduce((res, inc) => res && inc, true)
   && array[array.length-1],
 
-poster = (url, obj, cb) => $.post(
+poster = (url, obj, cb) => jQuery.post(
   url, JSON.stringify(obj), res => cb(JSON.parse(res))
 ),
 
@@ -45,17 +45,17 @@ paginate = (array, name, length) => array.slice(
 
 insertBoth = (collName, doc) => withThis(
   _.merge(doc, {_id: randomId(), updated: _.now()}),
-  obj => db[collName].put(obj) && poster('dbCall', {
+  obj => [db[collName].put(obj), poster('dbCall', {
     method: 'insertOne', collection: collName, document: obj
-  }, console.log)
+  }, console.log)]
 ),
 
 updateBoth = (collName, _id, doc) => withThis(
   _.merge(doc, {_id: _id, updated: _.now()}),
-  obj => db[collName].put(obj) && poster('dbCall', {
+  obj => [db[collName].put(obj), poster('dbCall', {
     method: 'updateOne', collection: collName,
-    document: obj, _id: id
-  }, console.log)
+    document: obj, _id
+  }, console.log)]
 ),
 
 makeModal = name => m('.modal',
@@ -85,9 +85,6 @@ makeReport = (name, action) => m('.box',
 tarifInap = (masuk, keluar, tarif) =>
   (daysDifference(keluar - masuk) || 1) * 1000 * +tarif,
 
-dbCall = (body, action) =>
-  io().emit('dbCall', body, action),
-    
 collNames = ['patients', 'goods', 'references', 'users', 'queue'],
 
 state = {route: 'dashboard'}, comp = {},
@@ -129,5 +126,5 @@ menus = {
 db = new Dexie('simrs')
 
 db.version(1).stores(collNames.reduce((res, inc) =>
-  _.merge(res, _.fromPairs([[inc, '_id']]))  
+  _.merge(res, _.fromPairs([[inc, '_id']]))
 , {}))

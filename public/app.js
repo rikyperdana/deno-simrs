@@ -38,7 +38,7 @@ _.assign(comp, {
             look('klinik', _.get(state.login, 'poliklinik'))
           ),
           m('a.navbar-item', {onclick: () => [
-            state.login = null,
+            state.login = null, state.gmail = null,
             m.redraw()
           ]},'Logout')
         )
@@ -47,17 +47,24 @@ _.assign(comp, {
   ),
 
   dashboard: () => m('.content',
-    {oncreate: () => [
+    m('h1', {oncreate: () => [
+      db.users.toArray(array => state.userList = array),
       collNames.map(name =>
-        db[name].toArray(array => poster('dbCll', {
+        db[name].toArray(array => poster('dbCall', {
             method: 'getDifference', collection: name,
             clientColl: array.map(i => _.pick(i, ['_id', 'updated']))
-          }, res => res && [db[name].bulkPut(res.data), m.redraw()])
+          }, res => res && [
+            db[name].bulkPut(res.data),
+            state.lastSync = Date.now(),
+            m.redraw()
+          ])
         )
-      ),
-      db.users.toArray(array => state.userList = array)
-    ]},
-    m('h1', 'Dashboard'),
+      )
+    ]}, 'Dashboard'),
+    m('div',
+      m('.button.is-info', 'Sinkronisasi'),
+      state.lastSync && m('span', '  Terakhir: ' + moment(state.lastSync).fromNow())
+    ), m('br'),
     _.chunk(_.values(menus), 3).map(i =>
       m('.columns', i.map(j => m('.column',
         m('.box', m('article.media',

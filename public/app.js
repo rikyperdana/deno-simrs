@@ -61,10 +61,9 @@ _.assign(comp, {
         )
       )
     ]}, 'Dashboard'),
-    m('div',
-      m('.button.is-info', 'Sinkronisasi'),
-      state.lastSync && m('span', '  Terakhir: ' + moment(state.lastSync).fromNow())
-    ), m('br'),
+    state.lastSync && m('span',
+      'Terakhir sinkronisasi: ' + moment(state.lastSync).fromNow()
+    ), m('br'), m('br'),
     _.chunk(_.values(menus), 3).map(i =>
       m('.columns', i.map(j => m('.column',
         m('.box', m('article.media',
@@ -76,21 +75,19 @@ _.assign(comp, {
       )))
     )
   ),
+
   login: () => m('.content',
-    m(autoForm({
+    m('br'), m(autoForm({
       id: 'login', schema: schemas.login,
       submit: {value: 'Login'},
-      action: (doc) => [
-        state.loading = true,
-        poster('login', {
-          username: doc.gmail, password: doc.password
-        }, res => res && [
-          _.assign(state, {gmail: doc.username, route: 'dashboard'}),
-          db.users.filter(i => i.gmail === state.gmail)
-          .toArray(i => [state.login = i[0], m.redraw()]),
-          m.redraw()
-        ])
-      ]
+      action: (doc) => poster('login', {
+        username: doc.gmail, password: doc.password
+      }, res => res && [
+        _.assign(state, {gmail: doc.username, route: 'dashboard'}),
+        db.users.filter(i => i.gmail === state.gmail)
+        .toArray(i => [state.login = i[0], m.redraw()]),
+        m.redraw()
+      ])
     }))
   )
 })

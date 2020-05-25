@@ -7,9 +7,9 @@ ands = array =>
   array.reduce((res, inc) => res && inc, true)
   && array[array.length-1],
 
-poster = (url, obj, cb) => jQuery.post(
-  url, JSON.stringify(obj), res => cb(JSON.parse(res))
-),
+poster = (url, obj, cb) => fetch(url, {
+  method: 'POST', body: JSON.stringify(obj)
+}).then(res => res.json()).then(cb),
 
 randomId = () =>
   [1, 1].map(() =>

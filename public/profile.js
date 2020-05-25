@@ -33,7 +33,6 @@ _.assign(comp, {
             username: {
               type: String, optional: true,
               autoform: {
-                help: 'mengganti username akan mereset bidang dan peranan, bisa minta kembali ke admin',
                 placeholder: 'Bila tidak ingin diganti, kosongkan saja'
               }
             },

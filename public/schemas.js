@@ -163,7 +163,7 @@ var schemas = {
 
   account: {
     nama: {type: String, label: 'Nama lengkap'},
-    gmail: {type: String},
+    username: {type: String},
     peranan: {type: Number, autoform: {
       type: 'select', options: selects('peranan')
     }},

@@ -22,7 +22,7 @@ app.post('/dbCall', async req => {
     find: async () => await coll.find(obj.projection, obj.options),
     findOne: async () => await coll.findOne({_id: obj._id}),
     insertOne: async () => await coll.insertOne(obj.document),
-    insertMany: async () => await obj.documents.map(doc => coll.insertOne(doc)),
+    insertMany: async () => await coll.insertMany(obj.documents),
     updateOne: async () => await coll.updateOne({_id: obj._id},{$set: obj.document}),
     deleteOne: async () => await coll.deleteOne({_id: obj._id}),
     getDifference: async () => await coll.find({$or: [
@@ -45,7 +45,7 @@ app.post('/bcrypt', async req => {
 app.post('/login', async req => {
   var text = await req.text(), obj = JSON.parse(text),
   db = client.database('medicare'), coll = db.collection('users'),
-  user = await coll.findOne({gmail: obj.username}),
+  user = await coll.findOne({username: obj.username}),
   data = await bcrypt.compare(obj.password, user.password)
   req.respond(responder({data}))
 })

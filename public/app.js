@@ -25,7 +25,7 @@ _.assign(comp, {
       m('.navbar-end', m('.navbar-item.has-dropdown.is-hoverable',
         m('a.navbar-link', {
           onclick: () => [state.route = 'profile', m.redraw()]
-        }, _.get(state.login, 'gmail')),
+        }, _.get(state.login, 'username')),
         m('.navbar-dropdown',
           m('a.navbar-item',
             'Peranan: '+ look('peranan', _.get(state.login, 'peranan'))
@@ -38,7 +38,7 @@ _.assign(comp, {
             look('klinik', _.get(state.login, 'poliklinik'))
           ),
           m('a.navbar-item', {onclick: () => [
-            state.login = null, state.gmail = null,
+            state.login = null, state.username = null,
             m.redraw()
           ]},'Logout')
         )
@@ -81,10 +81,10 @@ _.assign(comp, {
       id: 'login', schema: schemas.login,
       submit: {value: 'Login'},
       action: (doc) => poster('login', {
-        username: doc.gmail, password: doc.password
+        username: doc.username, password: doc.password
       }, res => res && [
-        _.assign(state, {gmail: doc.username, route: 'dashboard'}),
-        db.users.filter(i => i.gmail === state.gmail)
+        _.assign(state, {username: doc.username, route: 'dashboard'}),
+        db.users.filter(i => i.username === state.username)
         .toArray(i => [state.login = i[0], m.redraw()]),
         m.redraw()
       ])
@@ -93,5 +93,5 @@ _.assign(comp, {
 })
 
 m.mount(document.body, {view: () => m('div',
-  comp.navbar(), m('.container', state.gmail ? comp[state.route]() : comp.login())
+  comp.navbar(), m('.container', state.username ? comp[state.route]() : comp.login())
 )})

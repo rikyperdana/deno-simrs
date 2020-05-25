@@ -5,8 +5,8 @@ _.assign(comp, {
     m('br'), m('h1', 'Profil Pengguna'),
     m('table.table', m('tbody',
       m('tr',
-        m('th', 'Gmail'),
-        m('td', state.login.gmail)
+        m('th', 'Username'),
+        m('td', state.login.username)
       ),
       m('tr',
         m('th', 'Password'),
@@ -30,11 +30,10 @@ _.assign(comp, {
         m(autoForm({
           id: 'formProfile',
           schema: {
-            gmail: {
+            username: {
               type: String, optional: true,
-              regExp: "^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$",
               autoform: {
-                help: 'mengganti gmail akan mereset bidang dan peranan, bisa minta kembali ke admin',
+                help: 'mengganti username akan mereset bidang dan peranan, bisa minta kembali ke admin',
                 placeholder: 'Bila tidak ingin diganti, kosongkan saja'
               }
             },
@@ -47,10 +46,15 @@ _.assign(comp, {
             }}
           },
           action: doc => [
-            doc.password ?
-            io().emit('passwordCrypt', doc.password, res =>
-              updateBoth('users', state.login.id, _.assign(state.login, doc, {password: res}))
-            ) : updateBoth('users', state.login.id, _.assign(state.login, doc)),
+            doc.password ? poster('bcrypt', {
+              type: 'encrypt', text: doc.password
+            }, res => updateBoth(
+              'users', state.login._id, _.assign(
+                state.login, doc, {password: res.data}
+              )
+            )) : updateBoth('users', state.login._id, _.assign(
+              state.login, doc
+            )),
             state.modalProfile = null, m.redraw()
           ]
         }))

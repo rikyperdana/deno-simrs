@@ -8,7 +8,7 @@ Sistem ini dibangun dengan menggunakan spesifikasi sebagai berikut:
 
 |Teknologi|Keterangan|
 |--|--|
-|Bahasa|Javascript 1.6|
+|Bahasa|ES2015|
 |Server|Deno 1.0|
 |Paradigma|Functional|
 |Backend|Servest 0.6.0|
@@ -29,16 +29,16 @@ Sistem ini dibangun dengan menggunakan spesifikasi sebagai berikut:
    nanti demi keamanan.
 
 ### Bagian DB
-2. Login MongoDB Atlas, create Free cluster, klik create cluster
-3. Pada halaman MongoDB Atlas, bagian Cluster, klik Connect
-4. Klik Connect your Application
-5. Pilih MongoDB version 2.2.12 or later
-6. Klik Copy pada Connection String Only
-7. Ketikkan `MONGO="isikan dengan connection string"`
-8. Ganti <password> dengan password akun sendiri
-9. Pada halaman MongoDB Atlas Cluster, create database "simrs" (atau nama lainnya).
+1. Login MongoDB Atlas, create Free cluster, klik create cluster
+2. Pada halaman MongoDB Atlas, bagian Cluster, klik Connect
+3. Klik Connect your Application
+4. Pilih MongoDB version 2.2.12 or later
+5. Klik Copy pada Connection String Only
+6. Buat file pada project bernama `.env`. Ketikkan `MONGO="isikan dengan connection string"`
+7. Ganti <password> dengan password akun sendiri
+8. Pada halaman MongoDB Atlas Cluster, create database "simrs" (atau nama lainnya).
    Sesuaikan nama db tersebut ke client.db(namaDBnya) pada file index.js
-10. Masih pada halaman Cluster, tambahkan dibawah db tersebut 5 collection
+9. Masih pada halaman Cluster, tambahkan dibawah db tersebut 5 collection
     `goods, patients, references, users, queue`
 
 Bila tidak ingin menggunakan Atlas, silahkan ganti nilai variabel `MONGO=""`
@@ -51,7 +51,7 @@ dengan alamat server database local Anda
 
 ### Manajemen
 #### Pengguna
-Adalah menu yang dapat digunakan oleh admin untuk mendaftarkan users yang akan nantinya akan menggunakan sistem. Klik tambah akun dan isikan informasi seperti nama lengkap, alamat gmail, dan peranannya. Berikutnya sistem akan mengenali user berdasarkan alamat gmail yang digunakan untuk login dan memberikan hak akses sesuai dengan peranan yang ditetapkan oleh admin.
+Adalah menu yang dapat digunakan oleh admin untuk mendaftarkan users yang akan nantinya akan menggunakan sistem. Klik tambah akun dan isikan informasi seperti nama lengkap, username, dan peranannya. Berikutnya sistem akan mengenali user berdasarkan username yang digunakan untuk login dan memberikan hak akses sesuai dengan peranan yang ditetapkan oleh admin.
 #### Referensi
 Adalah menu yang dapat digunakan oleh admin untuk mendaftarkan tarif tindakan, laboratorium, dan radiologi ke dalam sistem dengan menggunakan file .csv seperti pada file [contoh](https://drive.google.com/open?id=1jtkgvq5SgWsljqtk0ZxkPW4fV-eZlAy5EjkzU41flSQ). Silahkan hapus seluruh baris kecuali header pertama dan ganti isinya sesuai dengan tarif pada faskes Anda. Setelah import berhasil, silahkan refresh browser.
 

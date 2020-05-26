@@ -24,7 +24,7 @@ Sistem ini dibangun dengan menggunakan spesifikasi sebagai berikut:
 ## Cara Install
 ### Bagian App
 1. `clone https://github.com/rikyperdana/deno-simrs`
-2. Pada ./public/management.js ganti `state.login.bidang !== 5` dengan `false`
+2. Pada `./public/management.js` ganti `state.login.bidang !== 5` dengan `false`
    untuk membuka akses sementara ke menu admin manajemen. Segera ganti kembali
    nanti demi keamanan.
 
@@ -34,14 +34,14 @@ Sistem ini dibangun dengan menggunakan spesifikasi sebagai berikut:
 4. Klik Connect your Application
 5. Pilih MongoDB version 2.2.12 or later
 6. Klik Copy pada Connection String Only
-7. Ketikkan MONGO="isikan dengan connection string"
+7. Ketikkan `MONGO="isikan dengan connection string"`
 8. Ganti <password> dengan password akun sendiri
 9. Pada halaman MongoDB Atlas Cluster, create database "simrs" (atau nama lainnya).
    Sesuaikan nama db tersebut ke client.db(namaDBnya) pada file index.js
 10. Masih pada halaman Cluster, tambahkan dibawah db tersebut 5 collection
-    goods, patients, references, users, queue
+    `goods, patients, references, users, queue`
 
-Bila tidak ingin menggunakan Atlas, silahkan ganti nilai variabel MONGO=""
+Bila tidak ingin menggunakan Atlas, silahkan ganti nilai variabel `MONGO=""`
 dengan alamat server database local Anda
 
 ## Cara Menjalankan

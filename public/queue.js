@@ -14,7 +14,10 @@ _.assign(comp, {
     m('.buttons',
       m('.button', {
         onclick: () => ands([
-          insertBoth('queue', {timestamp: Date.now(), num: +localStorage.regQueue+1}),
+          insertBoth('queue', {
+            timestamp: Date.now(),
+            no_antrian: 'R'+(+localStorage.regQueue+1)
+          }),
           makePdf.regQueue(+localStorage.regQueue),
           localStorage.setItem('regQueue', +localStorage.regQueue+1)
         ])

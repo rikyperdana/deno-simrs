@@ -34,15 +34,23 @@ Sistem ini dibangun dengan menggunakan spesifikasi sebagai berikut:
 3. Klik Connect your Application
 4. Pilih MongoDB version 2.2.12 or later
 5. Klik Copy pada Connection String Only
-6. Buat file pada project bernama `.env`. Ketikkan `MONGO="isikan dengan connection string"`
-7. Ganti <password> dengan password akun sendiri
-8. Pada halaman MongoDB Atlas Cluster, create database "simrs" (atau nama lainnya).
-   Sesuaikan nama db tersebut ke client.db(namaDBnya) pada file index.js
-9. Masih pada halaman Cluster, tambahkan dibawah db tersebut 5 collection
+6. Pada halaman MongoDB Atlas Cluster, create database "simrs" (atau nama lainnya).
+7. Masih pada halaman Cluster, tambahkan dibawah db tersebut 5 collection
     `goods, patients, references, users, queue`
-
+8. Pada Glitch code editor, Buat file pada project bernama `.env`. Ketikkan
+```
+MONGO="isikan dengan connection string, dan ganti <username> dan <password>"
+dbname="nama databasenya"
+```
 Bila tidak ingin menggunakan Atlas, silahkan ganti nilai variabel `MONGO=""`
 dengan alamat server database local Anda
+
+### Bagian Manajemen
+1. Pada file management.js line 4, ganti state.login.bidang !== 5 dengan false untuk membuka akses sementara
+2. Pada halaman aplikasi, buka menu manajemen pengguna, dan mulai tambahkan beberapa user lainnya seperti yg ditunjukkan pada video tutorial khusus manajemen user (link di bawah)
+3. Batasi kembali akses menu manajemen dengan mengganti false pada line 4 dengan state.login.bidang !== 5
+4. Unduh dan ganti isi [Daftar tarif tindakan](https://docs.google.com/spreadsheets/d/1jtkgvq5SgWsljqtk0ZxkPW4fV-eZlAy5EjkzU41flSQ/edit?usp=sharing), simpan sebagai .csv dan unggah melalui tombol Import
+5. Selamat mengikuti video tutorial pada playlist youtube berikut ini [Playlist Tutorial Pemakaian SIMRST Open Source](https://www.youtube.com/playlist?list=PL4oE8OvUySlyfGzQTu8kN9sPWWfcn_wSZ)
 
 ## Cara Menjalankan
 `deno run -A --unstable server.js` lalu akses http://localhost:3100

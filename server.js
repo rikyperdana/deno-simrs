@@ -23,8 +23,10 @@ app.post('/dbCall', async req => {
     findOne: async () => await coll.findOne({_id: obj._id}),
     insertOne: async () => await coll.insertOne(obj.document),
     insertMany: async () => await coll.insertMany(obj.documents),
-    updateOne: async () => await coll.updateOne({_id: obj._id},{$set: obj.document}),
     deleteOne: async () => await coll.deleteOne({_id: obj._id}),
+    updateOne: async () => await coll.updateOne(
+      {_id: obj._id}, {$set: obj.document}
+    ),
     getDifference: async () => await coll.find({$or: [
       {_id: {$not: {$in: obj.clientColl.map(i => i._id)}}},
       {updated: {$gt: obj.clientColl.reduce(
@@ -46,7 +48,7 @@ app.post('/login', async req => {
   var text = await req.text(), obj = JSON.parse(text),
   db = client.database('medicare'), coll = db.collection('users'),
   user = await coll.findOne({username: obj.username}),
-  data = await bcrypt.compare(obj.password, user.password)
+  data = await bcrypt.compare(obj.password, user.password),
   req.respond(responder({data}))
 })
 
